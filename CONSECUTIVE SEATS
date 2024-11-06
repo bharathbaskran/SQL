@@ -1,0 +1,36 @@
+
+CREATE TABLE cinema (
+    seat_id INT PRIMARY KEY,
+    free int
+);
+
+INSERT INTO cinema (seat_id, free) VALUES (1, 0);
+INSERT INTO cinema (seat_id, free) VALUES (2, 0);
+INSERT INTO cinema (seat_id, free) VALUES (3, 1);
+INSERT INTO cinema (seat_id, free) VALUES (4, 1);
+INSERT INTO cinema (seat_id, free) VALUES (5, 1);
+INSERT INTO cinema (seat_id, free) VALUES (6, 0);
+INSERT INTO cinema (seat_id, free) VALUES (7, 0);
+INSERT INTO cinema (seat_id, free) VALUES (8, 1);
+INSERT INTO cinema (seat_id, free) VALUES (9, 0);
+INSERT INTO cinema (seat_id, free) VALUES (10, 1);
+INSERT INTO cinema (seat_id, free) VALUES (11, 1);
+INSERT INTO cinema (seat_id, free) VALUES (12, 1);
+INSERT INTO cinema (seat_id, free) VALUES (13, 1);
+INSERT INTO cinema (seat_id, free) VALUES (14, 0);
+INSERT INTO cinema (seat_id, free) VALUES (15, 1);
+INSERT INTO cinema (seat_id, free) VALUES (16, 0);
+INSERT INTO cinema (seat_id, free) VALUES (17, 1);
+INSERT INTO cinema (seat_id, free) VALUES (18, 1);
+INSERT INTO cinema (seat_id, free) VALUES (19, 0);
+INSERT INTO cinema (seat_id, free) VALUES (20, 1);
+
+
+
+
+WITH CTE AS (SELECT SEAT_ID, COUNT(RN2) OVER(PARTITION BY RN2) AS RN3 FROM  
+			(SELECT *, ROW_NUMBER() OVER(ORDER BY SEAT_ID) AS RN , SEAT_ID- ROW_NUMBER() OVER(ORDER BY SEAT_ID) AS RN2  FROM CINEMA
+            WHERE FREE = 1) A)
+
+SELECT * FROM CTE
+WHERE RN3>=2
